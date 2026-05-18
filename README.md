@@ -1,23 +1,37 @@
-# CVE 技能
+# CVE Skill
 
-这是一个面向 Codex 的技能，用于在明确授权的开源项目中开展高影响漏洞研究，重点寻找可信的 High/Critical 漏洞候选，并准备负责任披露所需证据。
+This is an agent-oriented skill. I mainly use it with GPT-5.4. It supports authorized high-impact vulnerability research in open-source projects, with a focus on credible High/Critical candidates and responsible disclosure evidence. It is recommended to use it together with Codex goal mode.
 
-英文版本见 [README.en.md](README.en.md)。
+Chinese version: [README.zh.md](README.zh.md).
 
-## 已挖到的产出
+## Outputs
 
-| CVE | CVSS | 评级 |
+| CVE | CVSS | Severity |
 | --- | --- | --- |
 | CVE-2026-45727 | 8.2 | High |
 
-欢迎其他使用这个 skill 的人通过 issue 或 PR 提交自己的产出。请只提交已经授权披露、已经公开，或不包含敏感细节的信息。
+Users of this skill are welcome to submit their own outputs through issues or pull requests. Please submit only authorized, already public, or non-sensitive information.
 
-## 安装
+## Install
 
-在 Codex 中使用 `$skill-installer` 从以下地址安装：
+Install it in Codex with `$skill-installer` from:
 
 ```text
-https://github.com/0xlally/CVE-skill/tree/main/critical-cve-search
+https://github.com/0xlally/CVE-skill/tree/main/cve-skill
 ```
 
-也可以指定仓库 `0xlally/CVE-skill` 和路径 `critical-cve-search` 进行安装。
+You can also install from repository `0xlally/CVE-skill` and path `cve-skill`.
+
+## Regular Mode
+
+There are two observations from using Codex for vulnerability research:
+
+- First, the false-positive rate can be high, including inflated severity ratings and failing to check official security notes. This creates a lot of review work. Prompting can reduce the problem, but repeating the same prompt every time is tedious, so this skill exists to make those guardrails reusable.
+- Second, Codex tends to focus heavily on authentication, authorization bypass, configuration, and parameters. It is weaker at covering other bug classes. This skill guides the audit toward high-impact vulnerabilities.
+
+## Graph Mode
+
+Graph mode extends regular mode with a different hunting strategy. If regular mode has run for long enough and still finds no vulnerabilities, code auditing starts to look like human reasoning: inspect possible security issues in the project, trace fixes, and try to bypass them. But the code Codex sees is incomplete. Auditing every function can reduce omissions, but many functions are not exploitable by themselves. A vulnerability usually needs a complete chain from entry point to impact, so function-by-function auditing is inefficient. Graph mode addresses this by:
+
+- Using CodeQL to build function and data-flow relationship graphs, expanding Codex's view and covering more paths.
+- Recording audited nodes to avoid ineffective repetition.
