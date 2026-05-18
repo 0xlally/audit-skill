@@ -1,2 +1,13 @@
-# CVE-skill
-一个挖洞的skill，以提交cve为驱动，不定时产出high/critical漏洞
+# CVE Skill
+
+Codex skill for authorized high-impact vulnerability research in open-source projects.
+
+## Install
+
+Ask Codex to install the skill from:
+
+```text
+https://github.com/0xlally/CVE-skill/tree/main/critical-cve-search
+```
+
+The skill can also be installed with the Codex skill installer from repository `0xlally/CVE-skill` and path `critical-cve-search`.
