@@ -1,13 +1,13 @@
-# CVE Skill
+# CVE 技能
 
-Codex skill for authorized high-impact vulnerability research in open-source projects.
+这是一个面向 Codex 的技能，用于在明确授权的开源项目中开展高影响漏洞研究，重点寻找可信的 High/Critical 漏洞候选，并准备负责任披露所需证据。
 
-## Install
+## 安装
 
-Ask Codex to install the skill from:
+在 Codex 中使用 `$skill-installer` 从以下地址安装：
 
 ```text
 https://github.com/0xlally/CVE-skill/tree/main/critical-cve-search
 ```
 
-The skill can also be installed with the Codex skill installer from repository `0xlally/CVE-skill` and path `critical-cve-search`.
+也可以指定仓库 `0xlally/CVE-skill` 和路径 `critical-cve-search` 进行安装。
