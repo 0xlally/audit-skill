@@ -1,0 +1,4 @@
+interface:
+  display_name: "Audit Skill"
+  short_description: "面向漏洞候选的提交前审核，重点识别误报、影响夸大和维护者驳回风险。"
+  default_prompt: "使用 $audit-skill 审核一个已有漏洞候选，验证证据和攻击模型，降级夸大的严重性，拒绝误报，并且只在结论可辩护时准备面向维护者的提交报告。"

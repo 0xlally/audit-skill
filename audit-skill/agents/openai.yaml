@@ -1,0 +1,4 @@
+interface:
+  display_name: "Audit Skill"
+  short_description: "Submission-readiness review for vulnerability candidates, focused on false positives, impact inflation, and maintainer rejection risk."
+  default_prompt: "Use $audit-skill to review an existing vulnerability candidate before disclosure, validate evidence and attacker model, downgrade inflated severity, reject false positives, and prepare a maintainer-ready submission only when defensible."

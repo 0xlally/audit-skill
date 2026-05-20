@@ -1,37 +1,48 @@
-# CVE Skill
+# Audit Skill
 
-This is an agent-oriented skill. I mainly use it with GPT-5.4. It supports authorized high-impact vulnerability research in open-source projects, with a focus on credible High/Critical candidates and responsible disclosure evidence. It is recommended to use it together with Codex goal mode.
+This is an agent-oriented submission-readiness skill. It is not a vulnerability-hunting guide. Use it after an agent or researcher has produced a vulnerability candidate and you need a strict reviewer to decide whether the finding is submit-ready, overstated, under-evidenced, duplicated, intended behavior, or a false positive.
 
 Chinese version: [README.zh.md](README.zh.md).
 
-## Outputs
+## Purpose
 
-| CVE | CVSS | Severity |
-| --- | --- | --- |
-| CVE-2026-45727 | 8.2 | High |
+The skill is designed to reduce the review burden caused by agent-generated vulnerability reports:
 
-Users of this skill are welcome to submit their own outputs through issues or pull requests. Please submit only authorized, already public, or non-sensitive information.
+- Static code findings presented as real vulnerabilities.
+- Theoretical attack chains presented as proven exploitability.
+- Dangerous sinks presented as High/Critical impact without real impact proof.
+- CVSS vectors adjusted to meet a target severity.
+- Missing checks for documentation, prior fixes, advisories, issue history, supported versions, and bounty scope.
+
+The intended outcome is simple: if a finding passes this skill, the remaining report should be conservative, reproducible, maintainer-facing, and ready to submit.
+
+## Workflow
+
+The skill reviews existing candidates through eight gates:
+
+1. Freeze the original claim and separate facts from assumptions.
+2. Assign evidence level `E0` to `E4`.
+3. Validate reachability and security barriers.
+4. Validate attacker control and prerequisites.
+5. Prove actual confidentiality, integrity, availability, and scope impact.
+6. Run the maintainer rejection simulator.
+7. Recalculate CVSS and remove inflated wording.
+8. Produce a submission package only when the finding is defensible.
+
+## Verdicts
+
+- `Submit-ready`: evidence is sufficient and the report can be sent.
+- `Revise before submission`: real or plausible, but the report needs fixes.
+- `Needs validation`: key runtime, version, or impact proof is missing.
+- `Downgrade`: real issue, inflated severity or impact.
+- `Reject`: false positive, duplicate, intended behavior, out of scope, or no security impact.
 
 ## Install
 
 Install it in Codex with `$skill-installer` from:
 
 ```text
-https://github.com/0xlally/CVE-skill/tree/main/cve-skill
+https://github.com/0xlally/audit-skill
 ```
 
-You can also install from repository `0xlally/CVE-skill` and path `cve-skill`.
-
-## Regular Mode
-
-There are two observations from using Codex for vulnerability research:
-
-- First, the false-positive rate can be high, including inflated severity ratings and failing to check official security notes. This creates a lot of review work. Prompting can reduce the problem, but repeating the same prompt every time is tedious, so this skill exists to make those guardrails reusable.
-- Second, Codex tends to focus heavily on authentication, authorization bypass, configuration, and parameters. It is weaker at covering other bug classes. This skill guides the audit toward high-impact vulnerabilities.
-
-## Graph Mode
-
-Graph mode extends regular mode with a different hunting strategy. If regular mode has run for long enough and still finds no vulnerabilities, code auditing starts to look like human reasoning: inspect possible security issues in the project, trace fixes, and try to bypass them. But the code Codex sees is incomplete. Auditing every function can reduce omissions, but many functions are not exploitable by themselves. A vulnerability usually needs a complete chain from entry point to impact, so function-by-function auditing is inefficient. Graph mode addresses this by:
-
-- Using CodeQL to build function and data-flow relationship graphs, expanding Codex's view and covering more paths.
-- Recording audited nodes to avoid ineffective repetition.
+You can also install from repository `0xlally/audit-skill`.
